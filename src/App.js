@@ -4,7 +4,7 @@ import ContactList from './Components/ContactList'
 
 const App=()=>{
   return(
-    <div className="container">
+    <div className="container d-flex flex-direction-row">
       <AddContact/>
       <ContactList/>
     </div>
