@@ -1,8 +1,12 @@
 import React from 'react'
+import AddContact from './Components/AddContact'
+import ContactList from './Components/ContactList'
+
 const App=()=>{
   return(
-    <div>
-      <h1>Hello World</h1>
+    <div className="container">
+      <AddContact/>
+      <ContactList/>
     </div>
   )
 }
