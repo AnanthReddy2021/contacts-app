@@ -1,8 +1,11 @@
 import React from 'react';
 import './Style.css'
+import { connect } from 'react-redux';
+import {RemoveContact,EditContact} from '../redux/ContactActions'
+
 
 const ContactsList = (props) => {
-    const {data}=props
+    const {data,handleEdit,handleDelete}=props
     return (
         <div className="col-sm-8">
             <div className="row justify-content-center m-2">
@@ -34,8 +37,8 @@ const ContactsList = (props) => {
                                     <td scope="col">{item.LastName}</td>
                                     <td scope="col">{item.Mobile}</td>
                                     <td scope="col">{item.EmailID}</td>
-                                    <td scope="col"><button type="submit" className="btn btn-danger">Edit</button></td>
-                                    <td scope="col"><button type="submit" className="btn btn-danger">Remove</button></td>
+                                    <td scope="col"><button onClick={()=>{handleEdit(item)}}  className="btn btn-danger">Edit</button></td>
+                                    <td scope="col"><button onClick={()=>{handleDelete(item.ID)}}  className="btn btn-danger">Remove</button></td>
 
                                 </tr>
                             ))
@@ -49,4 +52,17 @@ const ContactsList = (props) => {
     );
 };
 
-export default ContactsList;
+
+const mapStateToProps=(state)=>{
+    console.log(state)
+    return{
+        data:state.contacts
+    }
+}
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        handleEdit:(data)=>{dispatch(EditContact(data))},
+        handleDelete:(id)=>{dispatch(RemoveContact(id))}
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(ContactsList);

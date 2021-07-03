@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { connect } from 'react-redux';
+import {AddContact as Add,UpdateContact} from '../redux/ContactActions'
+
 const AddContact = (props) => {
-    const [data,setData]=useState({
-        "ID":"",
-        "FirstName":"",
-        "LastName":"",
-        "Mobile":"",
-        "EmailID":"",
-        "Password":"",
-    })
-    
+    const [data,setData]=useState(props.contact)
+    useEffect(() => {
+        console.log(props.contact)
+        setData(props.contact)
+    }, [props])
     const handleSubmit=(e)=>{
         e.preventDefault();
-        props.handleReceive(data)
+        if(data.ID===""){
+            props.handleClick(data)
+        }else{
+            props.handleUpdate(data)
+        }
+        setData(props.contact)
     }
     const handleChange=(name,value)=>{
         const res={...data};
@@ -78,5 +82,17 @@ const AddContact = (props) => {
         </div>
     );
 };
+const mapStateToProps=(state)=>{
+    console.log(state)
+    return{
+        contact:state.contact
+    }
+}
 
-export default AddContact;
+const mapDispatchToProps=(dispatch)=>{
+    return{
+        handleClick:(data)=>{dispatch(Add(data))},
+        handleUpdate:(data)=>{dispatch(UpdateContact(data))}
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(AddContact);

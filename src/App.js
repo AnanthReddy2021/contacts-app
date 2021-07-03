@@ -4,20 +4,24 @@ import ContactList from './Components/ContactList'
 
 const App=()=>{
   const [List,setList]=useState([])
+  const [item,setItem]=useState({})
+
 
   const handleReceive=(data)=>{
-    const max = List.length===0 ?0:Math.max.apply(null, List.map(item => item.ID));
-    console.log(max)
-    const res={...data}
-    res["ID"]=max+1
-    const arr=[...List]
-    arr.push(res)
-    setList(arr)
+    
   }
+  const handleRemove=(id)=>{
+
+  }
+  const handleEdit=(data)=>{
+    console.log(data)
+    setItem(data)
+  }
+
   return(
-    <div className="d-flex flex-direction-row">
-      <AddContact handleReceive={handleReceive}/>
-      <ContactList data={List}/>
+    <div className="d-flex flex-direction-column">
+      <AddContact handleReceive={handleReceive} item={item}/>
+      <ContactList data={List} handleEdit={handleEdit} handleRemove={handleRemove}/>
     </div>
   )
 }
