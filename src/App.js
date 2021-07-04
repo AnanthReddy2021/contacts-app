@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import ContactList from './Components/ContactList'
 import NavBar from './Components/NavBar'
-import {Route,Switch} from 'react-router-dom'
+import {Redirect, Route,Switch,useLocation} from 'react-router-dom'
 import Home from './Components/Home'
 import Login from './Components/Login'
 import NotFound from './Components/NotFound'
@@ -11,11 +11,17 @@ import PrivateRoute from './Components/PrivateRoute'
 import DashBoard from './Components/DashBoard'
 
 const App=(props)=>{
-  
+
 
   return(
     <div>
-      <NavBar/>
+      {props.state.isLogin?
+          <NavBar/>
+        :
+         <Login/>
+      }
+    
+      {props.state.isLogin&&
       <Switch>
         <PrivateRoute path="/DashBoard">
           <DashBoard/>
@@ -23,12 +29,20 @@ const App=(props)=>{
         <PrivateRoute path="/Contacts">
           <ContactList/>
         </PrivateRoute>
-        <Route path="/Login" component={Login}/>
         <Route path="/Logout" component={Logout}/>
-
         <Route path="/" exact component={Home}/>
         <Route path="*" component={NotFound}/>
       </Switch>
+      
+    }
+    {
+      props.state.isLogin&&<Redirect to="/DashBoard"/>
+    }
+ 
+    {
+      !props.state.isLogin&&<Redirect to="/Login"/>
+    }
+
     </div>
   )
 }
