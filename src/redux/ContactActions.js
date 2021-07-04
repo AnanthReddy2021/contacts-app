@@ -11,6 +11,16 @@ export const UpdateContact=(data)=>{
         "data":data
     }
 }
+export const Login=()=>{
+    return{
+        "type":"LOGIN",
+    }
+}
+export const Logout=()=>{
+    return{
+        "type":"LOGOUT",
+    }
+}
 
 export  const EditContact=(data)=>{
     return{

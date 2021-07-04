@@ -8,7 +8,8 @@ let initialContact={
 }
 const initialState={
     contacts:[],
-    contact:initialContact
+    contact:initialContact,
+    isLogin:false
 }
 const ContactReducer=(state=initialState,actions)=>{
     switch(actions.type){
@@ -23,9 +24,7 @@ const ContactReducer=(state=initialState,actions)=>{
 
         }
         case "UPDATE_CONTACT":{
-            console.log(actions)
             const index=state.contacts.findIndex(item=>item.ID===actions.data.ID);
-            console.log(index)
             const arr=[...state.contacts]
             arr[index]=actions.data
             
@@ -39,6 +38,16 @@ const ContactReducer=(state=initialState,actions)=>{
         case "REMOVE_CONTACT":{
             const arr=state.contacts.filter(item=>item.ID!==actions.id)
             return {...state,contacts:arr};
+
+        }
+        case "LOGIN":{
+            console.log('Login Successfully !!')
+            return {...state,isLogin:true};
+
+        }
+        case "LOGOUT":{
+            console.log('Logout Success')
+            return {...state,isLogin:false};
 
         }
         default: {

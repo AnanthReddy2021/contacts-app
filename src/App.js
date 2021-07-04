@@ -1,29 +1,42 @@
 import React, { useState } from 'react'
-import AddContact from './Components/AddContact'
 import ContactList from './Components/ContactList'
+import NavBar from './Components/NavBar'
+import {Route,Switch} from 'react-router-dom'
+import Home from './Components/Home'
+import Login from './Components/Login'
+import NotFound from './Components/NotFound'
+import { connect } from 'react-redux'
+import Logout from './Components/Logout'
+import PrivateRoute from './Components/PrivateRoute'
+import DashBoard from './Components/DashBoard'
 
-const App=()=>{
-  const [List,setList]=useState([])
-  const [item,setItem]=useState({})
-
-
-  const handleReceive=(data)=>{
-    
-  }
-  const handleRemove=(id)=>{
-
-  }
-  const handleEdit=(data)=>{
-    console.log(data)
-    setItem(data)
-  }
+const App=(props)=>{
+  
 
   return(
-    <div className="d-flex flex-direction-column">
-      <AddContact handleReceive={handleReceive} item={item}/>
-      <ContactList data={List} handleEdit={handleEdit} handleRemove={handleRemove}/>
+    <div>
+      <NavBar/>
+      <Switch>
+        <PrivateRoute path="/DashBoard">
+          <DashBoard/>
+        </PrivateRoute>
+        <PrivateRoute path="/Contacts">
+          <ContactList/>
+        </PrivateRoute>
+        <Route path="/Login" component={Login}/>
+        <Route path="/Logout" component={Logout}/>
+
+        <Route path="/" exact component={Home}/>
+        <Route path="*" component={NotFound}/>
+      </Switch>
     </div>
   )
 }
+const mapStateToProps=(state)=>{
+  console.log(state)
+  return{
+    state
+  }
+}
 
-export default App;
+export default connect(mapStateToProps,null)(App);

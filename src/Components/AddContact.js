@@ -1,34 +1,22 @@
 import React, { useState,useEffect } from 'react';
 import { connect } from 'react-redux';
-import {AddContact as Add,UpdateContact} from '../redux/ContactActions'
 
 const AddContact = (props) => {
     const [data,setData]=useState(props.contact)
+
     useEffect(() => {
-        console.log(props.contact)
         setData(props.contact)
     }, [props])
-    const handleSubmit=(e)=>{
-        e.preventDefault();
-        if(data.ID===""){
-            props.handleClick(data)
-        }else{
-            props.handleUpdate(data)
-        }
-        setData(props.contact)
-    }
+
     const handleChange=(name,value)=>{
         const res={...data};
         res[name]=value;
         setData(res)
     }
     return (
-        <div className="col-sm-4 m-2 p-2 ">
-            <div className="row justify-content-center m-2">
-                <h2>Add Contact</h2>
-            </div> 
+        <div className="col-sm-11">
             <div>
-                <form onSubmit={handleSubmit}>
+                <form>
                     <div className="form-group">
                         <label htmlFor="First Name">First Name</label>
                         <input type="text" 
@@ -74,25 +62,22 @@ const AddContact = (props) => {
                                 onChange={(e)=>{handleChange("Password",e.target.value)}} 
                         />
                     </div>
-                   
-                   
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <div className="d-flex justify-content-end">
+                        <button className="btn btn-secondary mr-2" onClick={()=>{props.handleClose()}}>Close</button>
+                        <button className="btn btn-primary" onClick={()=>{
+                            props.handleSubmit(data)
+                        }}>Submit</button>
+                    </div>
                 </form>
             </div>       
         </div>
     );
 };
 const mapStateToProps=(state)=>{
-    console.log(state)
     return{
         contact:state.contact
     }
 }
 
-const mapDispatchToProps=(dispatch)=>{
-    return{
-        handleClick:(data)=>{dispatch(Add(data))},
-        handleUpdate:(data)=>{dispatch(UpdateContact(data))}
-    }
-}
-export default connect(mapStateToProps,mapDispatchToProps)(AddContact);
+
+export default connect(mapStateToProps,null)(AddContact);
